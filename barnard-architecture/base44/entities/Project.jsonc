@@ -1,0 +1,91 @@
+{
+  "name": "Project",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string",
+      "description": "Project name"
+    },
+    "slug": {
+      "type": "string",
+      "description": "URL-friendly identifier"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "Residential",
+        "Commercial",
+        "Cultural",
+        "Renovation",
+        "Interior",
+        "Landscape"
+      ],
+      "description": "Project category"
+    },
+    "year": {
+      "type": "string",
+      "description": "Year completed"
+    },
+    "location": {
+      "type": "string",
+      "description": "Project location"
+    },
+    "description": {
+      "type": "string",
+      "description": "Short description for cards"
+    },
+    "long_description": {
+      "type": "string",
+      "description": "Full project write-up"
+    },
+    "cover_image": {
+      "type": "string",
+      "description": "Main project image URL"
+    },
+    "cover_image_orientation": {
+      "type": "string",
+      "enum": [
+        "landscape",
+        "portrait"
+      ],
+      "default": "landscape",
+      "description": "Orientation of the cover image - controls grid sizing"
+    },
+    "gallery_images": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Additional project images"
+    },
+    "gallery_image_orientations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "landscape",
+          "portrait"
+        ]
+      },
+      "description": "Orientation per gallery image (parallel array to gallery_images)"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false,
+      "description": "Show on homepage"
+    },
+    "hidden": {
+      "type": "boolean",
+      "default": false,
+      "description": "Hide from public portfolio and homepage"
+    },
+    "sort_order": {
+      "type": "number",
+      "default": 0,
+      "description": "Display order"
+    }
+  },
+  "required": [
+    "title"
+  ]
+}

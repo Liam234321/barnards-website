@@ -1,0 +1,58 @@
+{
+  "name": "SiteContent",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "Unique identifier for this content block e.g. hero, philosophy, about_bio, cta"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "subheading": {
+      "type": "string"
+    },
+    "body": {
+      "type": "string"
+    },
+    "body2": {
+      "type": "string"
+    },
+    "body3": {
+      "type": "string"
+    },
+    "body4": {
+      "type": "string"
+    },
+    "image_url": {
+      "type": "string"
+    },
+    "image_url_2": {
+      "type": "string"
+    },
+    "image_url_3": {
+      "type": "string"
+    },
+    "stat1_value": {
+      "type": "string"
+    },
+    "stat1_label": {
+      "type": "string"
+    },
+    "stat2_value": {
+      "type": "string"
+    },
+    "stat2_label": {
+      "type": "string"
+    },
+    "stat3_value": {
+      "type": "string"
+    },
+    "stat3_label": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "key"
+  ]
+}
