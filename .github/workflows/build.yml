@@ -9,6 +9,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: barnard-architecture
+
     steps:
     - name: Checkout
       uses: actions/checkout@v4
@@ -28,4 +32,4 @@ jobs:
       uses: actions/upload-artifact@v4
       with:
         name: website-build
-        path: dist
+        path: barnard-architecture/dist
