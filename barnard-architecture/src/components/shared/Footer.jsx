@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
-import { Settings } from 'lucide-react';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import siteContent from '@/data/site-content.json';
 
 // LinkedIn logo SVG in grayscale
 const LinkedInIcon = () => (
@@ -14,20 +12,8 @@ const LinkedInIcon = () => (
 
 export default function Footer() {
   const navigate = useNavigate();
-  const [isAdmin, setIsAdmin] = useState(false);
 
-  useEffect(() => {
-    base44.auth.me().then(user => {
-      setIsAdmin(user?.role === 'admin');
-    }).catch(() => {});
-  }, []);
-
-  const { data: records = [] } = useQuery({
-    queryKey: ['site-content'],
-    queryFn: () => base44.entities.SiteContent.list(),
-  });
-
-  const footerContent = records.find(r => r.key === 'footer') || {};
+  const footerContent = siteContent.find(r => r.key === 'footer') || {};
 
   const handleNav = (page) => {
     window.scrollTo({ top: 0, behavior: 'instant' });
@@ -81,15 +67,6 @@ export default function Footer() {
           <p className="text-xs font-light text-stone-600">
             {footerContent.stat1_value || `Barnard Architecture ${new Date().getFullYear()}`}
           </p>
-          {isAdmin && (
-            <button
-              onClick={() => handleNav('Admin')}
-              className="inline-flex items-center gap-2 text-xs tracking-[0.15em] uppercase text-stone-600 hover:text-white transition-colors border border-stone-800 hover:border-stone-500 px-4 py-2"
-            >
-              <Settings className="w-3.5 h-3.5" />
-              Manage Projects
-            </button>
-          )}
         </div>
       </div>
     </footer>

@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
+import dbTestimonials from '@/data/testimonials.json';
 
 const FALLBACK = [
   {
@@ -25,11 +24,6 @@ const FALLBACK = [
 export default function Testimonials() {
   const [index, setIndex] = useState(0);
   const [direction, setDirection] = useState(1);
-
-  const { data: dbTestimonials = [] } = useQuery({
-    queryKey: ['testimonials'],
-    queryFn: () => base44.entities.Testimonial.list('sort_order', 100),
-  });
 
   // Only show testimonials not assigned to a specific project
   const homepageTestimonials = dbTestimonials.filter(t => !t.project);

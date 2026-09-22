@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { base44 } from '@/api/base44Client';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { toast } from 'sonner';
 import { Send, Mail, MapPin, Phone, Linkedin } from 'lucide-react';
+
+const encode = (data) =>
+  Object.keys(data)
+    .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
+    .join('&');
 
 export default function Contact() {
   const [form, setForm] = useState({ name: '', email: '', phone: '', message: '', project_type: '' });
@@ -20,13 +24,17 @@ export default function Contact() {
     }
     setContactError('');
     setSending(true);
-    await base44.integrations.Core.SendEmail({
-      to: 'andrew@barnards.net.au',
-      subject: `New inquiry from ${form.name}`,
-      body: `Name: ${form.name}\nEmail: ${form.email}\nPhone: ${form.phone}\nProject Type: ${form.project_type}\n\nMessage:\n${form.message}`
-    });
-    toast.success('Message sent. We\'ll be in touch soon.');
-    setForm({ name: '', email: '', phone: '', message: '', project_type: '' });
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: encode({ 'form-name': 'contact', ...form }),
+      });
+      toast.success('Message sent. We\'ll be in touch soon.');
+      setForm({ name: '', email: '', phone: '', message: '', project_type: '' });
+    } catch (err) {
+      toast.error('Something went wrong. Please email andrew@barnards.net.au directly.');
+    }
     setSending(false);
   };
 
@@ -40,7 +48,7 @@ export default function Contact() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
             className="font-serif text-4xl md:text-6xl text-stone-900 italic max-w-3xl leading-snug">
-            
+
             Let's start a conversation.
           </motion.h1>
         </div>
@@ -56,7 +64,7 @@ export default function Contact() {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
             className="flex flex-col justify-start pt-2">
-            
+
             <p className="text-stone-700 font-light leading-relaxed mb-12">I’m passionate about design and construction and could discuss it at length. Whether you’re planning a new home, designing an office space, or simply exploring ideas, I’d be happy to talk to you about what you have got in mind.
 
 
@@ -101,7 +109,7 @@ export default function Contact() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6">
               <div>
                 <label className="text-xs tracking-[0.15em] uppercase text-stone-400 mb-2 block">Name</label>
@@ -111,7 +119,7 @@ export default function Contact() {
                   required
                   className="border-stone-200 rounded-none h-12 focus:border-stone-900 focus:ring-0 font-light"
                   placeholder="Your name" />
-                
+
               </div>
               <div>
                 <label className="text-xs tracking-[0.15em] uppercase text-stone-400 mb-2 block">Email <span className="normal-case text-stone-300">(or phone)</span></label>
@@ -141,13 +149,13 @@ export default function Contact() {
                   rows={6}
                   className="border-stone-200 rounded-none focus:border-stone-900 focus:ring-0 font-light resize-none"
                   placeholder="Tell us about your project..." />
-                
+
               </div>
               <Button
                 type="submit"
                 disabled={sending}
                 className="w-full h-14 bg-stone-900 hover:bg-stone-800 text-white rounded-none text-xs tracking-[0.25em] uppercase">
-                
+
                 {sending ? 'Sending...' :
                 <span className="flex items-center gap-2">Send Message <Send className="w-4 h-4" /></span>
                 }

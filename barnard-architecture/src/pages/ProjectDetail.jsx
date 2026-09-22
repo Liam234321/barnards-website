@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { base44 } from '@/api/base44Client';
 import { Link } from 'react-router-dom';
 import { createPageUrl } from '@/utils';
 import { motion } from 'framer-motion';
 import { ArrowLeft, MapPin, Calendar, Tag } from 'lucide-react';
+import allProjects from '@/data/projects.json';
+import allTestimonials from '@/data/testimonials.json';
 
 export default function ProjectDetail() {
   const urlParams = new URLSearchParams(window.location.search);
@@ -14,28 +14,12 @@ export default function ProjectDetail() {
     window.scrollTo(0, 0);
   }, []);
 
-  const { data: project, isLoading } = useQuery({
-    queryKey: ['project', projectId],
-    queryFn: () => base44.entities.Project.filter({ id: projectId }),
-    enabled: !!projectId,
-    select: (data) => data?.[0],
-  });
-
-  const { data: testimonials = [] } = useQuery({
-    queryKey: ['testimonials-project', projectId],
-    queryFn: () => base44.entities.Testimonial.filter({ project: projectId }, 'sort_order', 50),
-    enabled: !!projectId,
-  });
+  const project = allProjects.find((p) => p.id === projectId);
+  const testimonials = allTestimonials
+    .filter((t) => t.project === projectId)
+    .sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
 
   const [activeImage, setActiveImage] = useState(null);
-
-  if (isLoading) {
-    return (
-      <div className="pt-20 min-h-screen flex items-center justify-center">
-        <div className="w-6 h-6 border-2 border-stone-300 border-t-stone-900 rounded-full animate-spin" />
-      </div>
-    );
-  }
 
   if (!project) {
     return (
@@ -47,11 +31,6 @@ export default function ProjectDetail() {
       </div>
     );
   }
-
-  const allImages = [
-    ...(project.cover_image ? [project.cover_image] : []),
-    ...(project.gallery_images || []),
-  ];
 
   return (
     <div className="pt-20">
