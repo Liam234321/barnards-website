@@ -115,10 +115,10 @@ export default function About() {
           <p className="text-xs tracking-[0.3em] uppercase text-stone-500 mb-10">Approach</p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
             {[
-            { text: 'I personally enjoy thinking and talking with clients and friends about how and why buildings are the way they are, how they age and renew and how we can design them to improve the personal experience of using them.' },
-            { text: 'Good Architecture is a skillful balance of aesthetics, budgets, material, and colour, considered right down into the detail. Architecture is experienced at a human level.' },
-            { text: 'The focus is on creating spaces that are intuitive and feel comfortable, where light and air raise awareness, movement is easy and utility meets peoples needs.' },
-            { text: 'The results are buildings and landscapes that improve your daily life so it feels effortless to live, work and relax in.' }].
+            { text: 'I enjoy talking with friends about how buildings work: how they age and renew and how we can design them to improve the experience of using them.' },
+            { text: 'Skilled architecture is a balance of aesthetics, budgets, material, and colour considered right down into the detail.' },
+            { text: 'The focus is on creating spaces that feel comfortable, where light and breeze raise awareness, movement is easy and the spaces meet peoples needs. This results in buildings and landscapes that improve your daily life and feel effortless to live in.' },
+            { text: 'I work regularly with  recovered materials, especially those that age well like timber and stone. They bring natural warmth to a building and how at grassroots level stop waste going to landfill.' }].
             map((val, i) =>
             <motion.div
               key={val.title}
